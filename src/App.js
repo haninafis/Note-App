@@ -4,8 +4,12 @@ import HomePage from './Pages/HomePage';
 function App() {
   return (
     <div className="app-container">
-      <h1>Hello</h1>
-      <HomePage/>
+      <header>
+        <h1>Aplikasi Catatan</h1>
+      </header>
+      <main>
+        <HomePage/>
+      </main>
     </div>
   );
 }
