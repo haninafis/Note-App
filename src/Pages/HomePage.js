@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import NoteList from "../Components/NoteList";
 import SearchBar from "../Components/SearchBar";
 import { getAllNotes } from '../utils/local-data';
+import HomepageAction from "../Components/HomepageAction";
 
 function HomePageWrapper() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -48,6 +49,7 @@ class HomePage extends React.Component {
                 <h2>Catatan Aktif</h2>
                 <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
                 <NoteList notes={notes}/>
+                <HomepageAction/>
             </div>
         )
     }
