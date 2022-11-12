@@ -1,14 +1,20 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import HomePage from './Pages/HomePage';
+import DetailPage from './Pages/DetailPage';
+import { Link } from 'react-router-dom';
 
 function App() {
   return (
     <div className="app-container">
       <header>
-        <h1>Aplikasi Catatan</h1>
+        <h1><Link to="/">Aplikasi Catatan</Link></h1>
       </header>
       <main>
-        <HomePage/>
+        <Routes>
+          <Route path="/" element={<HomePage/>} />
+          <Route path="/notes/:id" element={<DetailPage/>} />
+        </Routes>
       </main>
     </div>
   );

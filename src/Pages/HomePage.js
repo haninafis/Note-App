@@ -2,7 +2,7 @@ import React from "react";
 import { useSearchParams } from 'react-router-dom';
 import NoteList from "../Components/NoteList";
 import SearchBar from "../Components/SearchBar";
-import {getAllNotes} from '../utils/local-data';
+import { getAllNotes } from '../utils/local-data';
 
 function HomePageWrapper() {
     const [searchParams, setSearchParams] = useSearchParams();
