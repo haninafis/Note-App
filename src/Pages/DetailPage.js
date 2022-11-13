@@ -2,7 +2,8 @@ import React from "react";
 import { useParams } from 'react-router-dom';
 import NoteDetail from "../Components/NoteDetail";
 import { getNote } from '../utils/local-data';
-import DetailPageAction from "../Components/DetailPageAction";
+import ArchivedButton from "../Components/ArchivedButton";
+import DeleteButton from "../Components/DeleteButton";
 
 function DetailPageWrapper() {
     const { id } = useParams();
@@ -21,8 +22,11 @@ class DetailPage extends React.Component {
     render() {
         return (
             <>
-              <NoteDetail {...this.state.notes} />
-              <DetailPageAction/>
+                <NoteDetail {...this.state.notes} />
+                <div className="detail-page__action">
+                    <ArchivedButton/>
+                    <DeleteButton/>        
+                </div>
             </>
         );
     }
