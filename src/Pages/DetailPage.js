@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from 'react-router-dom';
 import NoteDetail from "../Components/NoteDetail";
 import { getNote } from '../utils/local-data';
+import DetailPageAction from "../Components/DetailPageAction";
 
 function DetailPageWrapper() {
     const { id } = useParams();
@@ -21,6 +22,7 @@ class DetailPage extends React.Component {
         return (
             <>
               <NoteDetail {...this.state.notes} />
+              <DetailPageAction/>
             </>
         );
     }
