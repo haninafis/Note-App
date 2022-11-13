@@ -4,6 +4,7 @@ import NoteDetail from "../Components/NoteDetail";
 import { getNote, deleteNote, archiveNote, unarchiveNote } from '../utils/local-data';
 import ArchivedButton from "../Components/ArchivedButton";
 import DeleteButton from "../Components/DeleteButton";
+import NotFound from "./NotFound";
 
 function DetailPageWrapper() {
     const { id } = useParams();
@@ -40,14 +41,20 @@ class DetailPage extends React.Component {
     }
 
     render() {
+        if(this.state.notes) {
+            return (
+                <>
+                    <NoteDetail {...this.state.notes} />
+                    <div className="detail-page__action">
+                        <ArchivedButton id={this.props.id} archived={this.state.notes.archived} onArchive={this.onArchiveHandler}/>
+                        <DeleteButton id={this.props.id} onDelete={this.onDeleteHandler}/>        
+                    </div>
+                </>    
+            )
+        }
+
         return (
-            <>
-                <NoteDetail {...this.state.notes} />
-                <div className="detail-page__action">
-                    <ArchivedButton id={this.props.id} archived={this.state.notes.archived} onArchive={this.onArchiveHandler}/>
-                    <DeleteButton id={this.props.id} onDelete={this.onDeleteHandler}/>        
-                </div>
-            </>
+            <NotFound/>
         );
     }
 }
