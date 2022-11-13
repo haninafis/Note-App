@@ -33,7 +33,7 @@ class DetailPage extends React.Component {
             <>
                 <NoteDetail {...this.state.notes} />
                 <div className="detail-page__action">
-                    <ArchivedButton/>
+                    <ArchivedButton id={this.props.id} archived={this.state.notes.archived}/>
                     <DeleteButton id={this.props.id} onDelete={this.onDeleteHandler}/>        
                 </div>
             </>
