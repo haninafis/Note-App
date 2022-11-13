@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './Pages/HomePage';
 import DetailPage from './Pages/DetailPage';
+import AddPage from './Pages/AddPage';
 import { Link } from 'react-router-dom';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage/>} />
           <Route path="/notes/:id" element={<DetailPage/>} />
+          <Route path="/notes/new" element={<AddPage/>} />
         </Routes>
       </main>
     </div>
