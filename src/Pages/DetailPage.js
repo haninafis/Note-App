@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import NoteDetail from "../Components/NoteDetail";
-import { getNote, deleteNote } from '../utils/local-data';
+import { getNote, deleteNote, archiveNote, unarchiveNote } from '../utils/local-data';
 import ArchivedButton from "../Components/ArchivedButton";
 import DeleteButton from "../Components/DeleteButton";
 
@@ -20,8 +20,19 @@ class DetailPage extends React.Component {
             notes: getNote(props.id)
         };
 
+        this.onArchiveHandler = this.onArchiveHandler.bind(this);
         this.onDeleteHandler = this.onDeleteHandler.bind(this);
     }
+
+    onArchiveHandler(id) {
+        if (this.state.notes.archived) {
+           unarchiveNote(id);
+           this.props.navigate('/');
+        } else if (!this.state.notes.archived) {
+           archiveNote(id);
+           this.props.navigate('/');
+        }
+     }
 
     onDeleteHandler(id) {
         deleteNote(id);
@@ -33,7 +44,7 @@ class DetailPage extends React.Component {
             <>
                 <NoteDetail {...this.state.notes} />
                 <div className="detail-page__action">
-                    <ArchivedButton id={this.props.id} archived={this.state.notes.archived}/>
+                    <ArchivedButton id={this.props.id} archived={this.state.notes.archived} onArchive={this.onArchiveHandler}/>
                     <DeleteButton id={this.props.id} onDelete={this.onDeleteHandler}/>        
                 </div>
             </>
