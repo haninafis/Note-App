@@ -5,6 +5,7 @@ import { getNote, deleteNote, archiveNote, unarchiveNote } from '../utils/local-
 import ArchivedButton from "../Components/ArchivedButton";
 import DeleteButton from "../Components/DeleteButton";
 import NotFound from "./NotFound";
+import PropTypes from 'prop-types';
 
 function DetailPageWrapper() {
     const { id } = useParams();
@@ -57,6 +58,11 @@ class DetailPage extends React.Component {
             <NotFound/>
         );
     }
+}
+
+DetailPage.propTypes = {
+    id: PropTypes.string,
+    navigate: PropTypes.func.isRequired,
 }
 
 export default DetailPageWrapper;
