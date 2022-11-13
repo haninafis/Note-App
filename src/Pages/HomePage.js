@@ -2,7 +2,7 @@ import React from "react";
 import { useSearchParams } from 'react-router-dom';
 import NoteList from "../Components/NoteList";
 import SearchBar from "../Components/SearchBar";
-import { getAllNotes } from '../utils/local-data';
+import { getActiveNotes } from '../utils/local-data';
 import HomePageAction from "../Components/HomePageAction";
 
 function HomePageWrapper() {
@@ -20,7 +20,7 @@ class HomePage extends React.Component {
         super(props);
 
         this.state = {
-            notes: getAllNotes(),
+            notes: getActiveNotes(),
             keyword: props.defaultKeyword || '',
         }
 
