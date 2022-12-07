@@ -7,6 +7,7 @@ import ArchivedPage from './Pages/ArchivedPage';
 import { Link } from 'react-router-dom';
 import Navigation from './Components/Navigation';
 import NotFound from './Pages/NotFound';
+import RegisterPage from './Pages/RegisterPage';
 
 class App extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class App extends React.Component {
           <main>
             <Routes>
               <Route path="/*" element={<p>Halaman Login</p>} />
-              <Route path="/register" element={<p>Halaman Register</p>} />
+              <Route path="/register" element={<RegisterPage/>} />
             </Routes>
           </main>
         </div>
