@@ -54,11 +54,11 @@ class RegisterInput extends React.Component {
   render() {
     return (
       <form onSubmit={this.onSubmitHandler} className='input-register'>
-        <label for="name">Nama</label>
+        <label htmlFor="name">Nama</label>
         <input type="text" value={this.state.name} onChange={this.onNameChange} />
-        <label for="name">Email</label>
+        <label htmlFor="name">Email</label>
         <input type="email" value={this.state.email} onChange={this.onEmailChange} />
-        <label for="name">Password</label>
+        <label htmlFor="name">Password</label>
         <input type="password" autoComplete='current-password' value={this.state.password} onChange={this.onPasswordChange} />
         <button>Register</button>
       </form>
