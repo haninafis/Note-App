@@ -21,7 +21,7 @@ class HomePage extends React.Component {
         super(props);
 
         this.state = {
-            notes: getActiveNotes(),
+            notes: [],
             keyword: props.defaultKeyword || '',
         }
 
