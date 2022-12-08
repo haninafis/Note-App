@@ -4,6 +4,7 @@ import NoteList from "../Components/NoteList";
 import SearchBar from "../Components/SearchBar";
 import { getArchivedNotes } from '../utils/network-data';
 import PropTypes from 'prop-types';
+import { LocaleConsumer } from "../contexts/LocaleContext";
 
 function ArchivedPageWrapper() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -55,11 +56,19 @@ class ArchivedPage extends React.Component {
         });
 
         return (
-            <div className="archives-page">
-                <h2>Catatan Arsip</h2>
-                <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
-                <NoteList notes={notes}/>
-            </div>
+          <LocaleConsumer>
+            {
+              ({ locale }) => {
+                return (
+                  <div className="archives-page">
+                    <h2>{locale === 'id' ? 'Catatan Arsip' : 'Archived Note'}</h2>
+                    <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
+                    <NoteList notes={notes}/>
+                  </div>
+                )
+              }
+            }
+          </LocaleConsumer>
         )
     }
 }

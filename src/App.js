@@ -12,6 +12,8 @@ import LoginPage from './Pages/LoginPage';
 import { getUserLogged, putAccessToken } from './utils/network-data';
 import { ThemeProvider } from './contexts/ThemeContext';
 import ToggleTheme from './Components/ToggleTheme';
+import { LocaleProvider } from './contexts/LocaleContext';
+import ToggleLocale from './Components/ToggleLocale';
 
 class App extends React.Component {
   constructor(props) {
@@ -29,6 +31,21 @@ class App extends React.Component {
             theme: newTheme
           }
         });
+      },
+      localeContext: {
+        locale: localStorage.getItem('locale') || 'id',
+        toggleLocale: () => {
+          this.setState((prevState) => {
+            const newLocale = prevState.localeContext.locale === 'id' ? 'en' : 'id';
+            localStorage.setItem('locale', newLocale);
+            return {
+              localeContext: {
+                ...prevState.localeContext,
+                locale: newLocale
+              }
+            }
+          })
+        }
       }
     };
 
@@ -80,10 +97,12 @@ class App extends React.Component {
 
     if (this.state.authedUser === null) {
       return (
+        <LocaleProvider value={this.state.localeContext}>
         <ThemeProvider value={this.state}>
           <div className='app-container'>
             <header>
-              <h1><Link to="/">Aplikasi Catatan</Link></h1>
+              <h1><Link to="/">{this.state.localeContext.locale === 'id' ? 'Aplikasi Catatan' : 'Notes App'}</Link></h1>
+              <ToggleLocale/>
               <ToggleTheme/>
             </header>
             <main>
@@ -94,14 +113,17 @@ class App extends React.Component {
             </main>
           </div>
         </ThemeProvider>
+        </LocaleProvider>
       )
     }
     
     return (
+      <LocaleProvider value={this.state.localeContext}>
       <ThemeProvider value={this.state}>
         <div className="app-container">
           <header>
-            <h1><Link to="/">Aplikasi Catatan</Link></h1>
+            <h1><Link to="/">{this.state.localeContext.locale === 'id' ? 'Aplikasi Catatan' : 'Notes App'}</Link></h1>
+            <ToggleLocale/>
             <ToggleTheme/>
             <Navigation logout={this.onLogout} name={this.state.authedUser.name}/>
           </header>
@@ -116,6 +138,7 @@ class App extends React.Component {
           </main>
         </div>
       </ThemeProvider>
+      </LocaleProvider>
     );
   }
 }

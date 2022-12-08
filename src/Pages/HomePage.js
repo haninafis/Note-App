@@ -5,6 +5,7 @@ import SearchBar from "../Components/SearchBar";
 import { getActiveNotes } from '../utils/network-data';
 import HomePageAction from "../Components/HomePageAction";
 import PropTypes from 'prop-types';
+import { LocaleConsumer } from "../contexts/LocaleContext";
 
 function HomePageWrapper() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -56,12 +57,20 @@ class HomePage extends React.Component {
         });
 
         return (
-            <div className="homepage">
-                <h2>Catatan Aktif</h2>
-                <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
-                <NoteList notes={notes}/>
-                <HomePageAction/>
-            </div>
+          <LocaleConsumer>
+          {
+            ({ locale }) => {
+              return (
+                <div className="homepage">
+                  <h2>{locale === 'id' ? 'Catatan Aktif' : 'Active Note'}</h2>
+                  <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
+                  <NoteList notes={notes}/>
+                  <HomePageAction/>
+                </div>
+              )
+            }
+          }
+        </LocaleConsumer>
         )
     }
 }

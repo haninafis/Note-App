@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import RegisterInput from '../Components/RegisterInput';
 import { register } from '../utils/network-data';
+import { LocaleConsumer } from '../contexts/LocaleContext';
  
 function RegisterPage() {
   const navigate = useNavigate();
@@ -14,11 +15,19 @@ function RegisterPage() {
   }
  
   return (
-    <section className='register-page'>
-      <h2>Isi form untuk mendaftar akun.</h2>
-      <RegisterInput register={onRegisterHandler} />
-      <p>Sudah punya akun? <Link to="/">Login di sini</Link></p>
-    </section>
+    <LocaleConsumer>
+      {
+        ({ locale }) => {
+          return (
+            <section className='register-page'>
+              <h2>{locale === 'id' ? 'Isi form untuk mendaftar akun.' : 'Fill the form to register account.'}</h2>
+              <RegisterInput register={onRegisterHandler} />
+              <p>{locale === 'id' ? 'Sudah punya akun? ' : 'Already have an account? '}<Link to="/">{locale === 'id' ? 'Login di sini' : 'Login here'}</Link></p>
+            </section>
+          )
+        }
+      }
+    </LocaleConsumer>
   )
 }
  
