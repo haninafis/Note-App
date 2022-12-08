@@ -2,7 +2,7 @@ import React from "react";
 import { useSearchParams } from 'react-router-dom';
 import NoteList from "../Components/NoteList";
 import SearchBar from "../Components/SearchBar";
-import { getActiveNotes } from '../utils/local-data';
+import { getActiveNotes } from '../utils/network-data';
 import HomePageAction from "../Components/HomePageAction";
 import PropTypes from 'prop-types';
 
@@ -27,6 +27,16 @@ class HomePage extends React.Component {
 
         this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
     }
+
+    async componentDidMount() {
+        const { data } = await getActiveNotes();
+    
+        this.setState(() => {
+          return {
+            notes: data
+          }
+        })
+      }
 
     onKeywordChangeHandler(keyword) {
         this.setState(() => {
