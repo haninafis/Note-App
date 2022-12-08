@@ -10,6 +10,8 @@ import NotFound from './Pages/NotFound';
 import RegisterPage from './Pages/RegisterPage';
 import LoginPage from './Pages/LoginPage';
 import { getUserLogged, putAccessToken } from './utils/network-data';
+import { ThemeProvider } from './contexts/ThemeContext';
+import ToggleTheme from './Components/ToggleTheme';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +20,16 @@ class App extends React.Component {
     this.state = {
       authedUser: null,
       initializing: true,
+      theme: localStorage.getItem('theme') || 'dark',
+      toggleTheme: () => {
+        this.setState((prevState) => {
+          const newTheme = prevState.theme === 'dark' ? 'light' : 'dark';
+          localStorage.setItem('theme', newTheme);
+          return {
+            theme: newTheme
+          }
+        });
+      }
     };
 
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
@@ -45,6 +57,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
+    document.documentElement.setAttribute('data-theme', this.state.theme);
     const { data } = await getUserLogged();
     this.setState(() => {
       return {
@@ -52,6 +65,12 @@ class App extends React.Component {
         initializing: false,
       };
     });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.theme !== this.state.theme) {
+      document.documentElement.setAttribute('data-theme', this.state.theme);
+    }
   }
   
   render() {
@@ -61,36 +80,42 @@ class App extends React.Component {
 
     if (this.state.authedUser === null) {
       return (
-        <div className='app-container'>
-          <header>
-            <h1><Link to="/">Aplikasi Catatan</Link></h1>
-          </header>
-          <main>
-            <Routes>
-              <Route path="/*" element={<LoginPage loginSuccess={this.onLoginSuccess} />} />
-              <Route path="/register" element={<RegisterPage/>} />
-            </Routes>
-          </main>
-        </div>
+        <ThemeProvider value={this.state}>
+          <div className='app-container'>
+            <header>
+              <h1><Link to="/">Aplikasi Catatan</Link></h1>
+              <ToggleTheme/>
+            </header>
+            <main>
+              <Routes>
+                <Route path="/*" element={<LoginPage loginSuccess={this.onLoginSuccess} />} />
+                <Route path="/register" element={<RegisterPage/>} />
+              </Routes>
+            </main>
+          </div>
+        </ThemeProvider>
       )
     }
     
     return (
-      <div className="app-container">
-        <header>
-          <h1><Link to="/">Aplikasi Catatan</Link></h1>
-          <Navigation logout={this.onLogout} name={this.state.authedUser.name}/>
-        </header>
-        <main>
-          <Routes>
-            <Route path="/" element={<HomePage/>} />
-            <Route path="/notes/:id" element={<DetailPage/>} />
-            <Route path="/notes/new" element={<AddPage/>} />
-            <Route path="/archives" element={<ArchivedPage/>} />
-            <Route path="*" element={<NotFound/>} />
-          </Routes>
-        </main>
-      </div>
+      <ThemeProvider value={this.state}>
+        <div className="app-container">
+          <header>
+            <h1><Link to="/">Aplikasi Catatan</Link></h1>
+            <ToggleTheme/>
+            <Navigation logout={this.onLogout} name={this.state.authedUser.name}/>
+          </header>
+          <main>
+            <Routes>
+              <Route path="/" element={<HomePage/>} />
+              <Route path="/notes/:id" element={<DetailPage/>} />
+              <Route path="/notes/new" element={<AddPage/>} />
+              <Route path="/archives" element={<ArchivedPage/>} />
+              <Route path="*" element={<NotFound/>} />
+            </Routes>
+          </main>
+        </div>
+      </ThemeProvider>
     );
   }
 }
