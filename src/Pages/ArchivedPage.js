@@ -2,7 +2,7 @@ import React from "react";
 import { useSearchParams } from 'react-router-dom';
 import NoteList from "../Components/NoteList";
 import SearchBar from "../Components/SearchBar";
-import { getArchivedNotes } from '../utils/local-data';
+import { getArchivedNotes } from '../utils/network-data';
 import PropTypes from 'prop-types';
 
 function ArchivedPageWrapper() {
@@ -20,11 +20,21 @@ class ArchivedPage extends React.Component {
         super(props);
 
         this.state = {
-            notes: getArchivedNotes(),
+            notes: [],
             keyword: props.defaultKeyword || '',
         }
 
         this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
+    }
+
+    async componentDidMount() {
+        const { data } = await getArchivedNotes();
+    
+        this.setState(() => {
+          return {
+            notes: data
+          }
+        })
     }
 
     onKeywordChangeHandler(keyword) {

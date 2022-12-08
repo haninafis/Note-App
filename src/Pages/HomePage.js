@@ -36,7 +36,7 @@ class HomePage extends React.Component {
             notes: data
           }
         })
-      }
+    }
 
     onKeywordChangeHandler(keyword) {
         this.setState(() => {
