@@ -25,6 +25,7 @@ function Navigation({ logout, name }) {
 
 Navigation.propTypes = {
   logout: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
 };
    
 export default Navigation;
