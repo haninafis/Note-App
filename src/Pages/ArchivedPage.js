@@ -75,7 +75,7 @@ class ArchivedPage extends React.Component {
 
 ArchivedPage.propTypes = {
     keywordChange: PropTypes.func.isRequired,
-    defaultKeyword: PropTypes.string.isRequired
+    defaultKeyword: PropTypes.string,
 }
 
 export default ArchivedPageWrapper;
