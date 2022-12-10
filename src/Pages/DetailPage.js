@@ -7,7 +7,6 @@ import DeleteButton from "../Components/DeleteButton";
 import NotFound from "./NotFound";
 import Loading from "react-fullscreen-loading";
 import LocaleContext from "../contexts/LocaleContext";
-import PropTypes from 'prop-types';
 
 function DetailPage() {
     const { id } = useParams();
@@ -25,7 +24,8 @@ function DetailPage() {
 
     async function onDeleteHandler(id) {
         await deleteNote(id);
-        navigate("/");
+        note.archived ? navigate("/archives")
+        : navigate("/");
     }
     
       async function onArchiveHandler(id) {
