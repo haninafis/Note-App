@@ -5,59 +5,67 @@ import { getNote, deleteNote, archiveNote, unarchiveNote } from '../utils/networ
 import ArchivedButton from "../Components/ArchivedButton";
 import DeleteButton from "../Components/DeleteButton";
 import NotFound from "./NotFound";
+import Loading from "react-fullscreen-loading";
+import LocaleContext from "../contexts/LocaleContext";
 import PropTypes from 'prop-types';
 
-function DetailPageWrapper() {
+function DetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const [note, setNote] = React.useState(null);
+    const [isLoading, setIsLoading] = React.useState(true);
+    const { theme } = React.useContext(LocaleContext);
 
-    return <DetailPage id={id} navigate={navigate}/>;
-}
+    React.useEffect(() => {
+        getNote(id).then(({ data }) => {
+          setNote(data);
+          setIsLoading(false);
+        })
+    }, [id]);
 
-class DetailPage extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            notes: getNote(props.id)
-        };
-
-        this.onArchiveHandler = this.onArchiveHandler.bind(this);
-        this.onDeleteHandler = this.onDeleteHandler.bind(this);
+    async function onDeleteHandler(id) {
+        await deleteNote(id);
+        navigate("/");
+    }
+    
+      async function onArchiveHandler(id) {
+        await archiveNote(id);
+        navigate("/");
+    }
+    
+      async function onUnarchiveHandler(id) {
+        await unarchiveNote(id);
+        navigate("/archives");
     }
 
-    onArchiveHandler(id) {
-        if (this.state.notes.archived) {
-           unarchiveNote(id);
-           this.props.navigate('/');
-        } else if (!this.state.notes.archived) {
-           archiveNote(id);
-           this.props.navigate('/');
-        }
-     }
-
-    onDeleteHandler(id) {
-        deleteNote(id);
-        this.props.navigate('/');
-    }
-
-    render() {
-        if(this.state.notes) {
-            return (
-                <>
-                    <NoteDetail {...this.state.notes} />
-                    <div className="detail-page__action">
-                        <ArchivedButton id={this.props.id} archived={this.state.notes.archived} onArchive={this.onArchiveHandler}/>
-                        <DeleteButton id={this.props.id} onDelete={this.onDeleteHandler}/>        
-                    </div>
-                </>    
-            )
-        }
-
-        return (
-            <NotFound/>
-        );
-    }
+    return (
+        <>
+            {
+                (() => {
+                    if (isLoading) {
+                        return <Loading loading={true} background={theme === "dark" ? "#fff" : "#212529"} loaderColor="#0dcaf0" />;
+                    }
+                  
+                    if (note === null) {
+                        return (
+                            <div>
+                                <NotFound/>
+                            </div>
+                        )
+                    }
+                        return (
+                            <>
+                                <NoteDetail {...note}/>
+                                <div className="detail-page__action">
+                                    <ArchivedButton id={id} onUnarchive={onUnarchiveHandler} onArchive={onArchiveHandler} archived={note.archived}/>
+                                    <DeleteButton id={id} onDelete={onDeleteHandler}/>        
+                                </div>
+                            </>
+                        )
+                })() 
+            }
+        </>
+    )
 }
 
 DetailPage.propTypes = {
@@ -65,4 +73,4 @@ DetailPage.propTypes = {
     navigate: PropTypes.func.isRequired,
 }
 
-export default DetailPageWrapper;
+export default DetailPage;
