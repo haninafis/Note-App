@@ -68,9 +68,4 @@ function DetailPage() {
     )
 }
 
-DetailPage.propTypes = {
-    id: PropTypes.string,
-    navigate: PropTypes.func.isRequired,
-}
-
 export default DetailPage;
