@@ -1,6 +1,6 @@
 # Submission 2 Belajar Fundamental Aplikasi Web dengan React
 
-## Live Application Preview Link
+## Preview
 https://note-app-v2.netlify.app/
 
 # Getting Started with Create React App
